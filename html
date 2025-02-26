@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    
+
+
+    
+    <title>Cockpit</title>
+  
+    <!-- CSS -->
+    <!-- <link rel="stylesheet" href="https://conatus-site-assets.s3.amazonaws.com/css/bootstrap.css"> -->
+    <!-- <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css"> -->
+    <link rel="stylesheet" href="https://conatus-site-assets.s3.amazonaws.com/css/normalize.css">
+    <link rel="stylesheet" href="https://conatus-site-assets.s3.us-east-1.amazonaws.com/css/style.css">        
+    <link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet">
+    <!--<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>    -->
+
+  
+</head>
+<body>  
+    <div class="app">            
+        <header>
+            <div class="conteiner-logo">
+                <img class="logo" src="https://conatus-site-assets.s3.amazonaws.com/images/conatus-novo.svg" alt="Logo Conatus">
+            </div>
+            <menu>           
+                <div class="form">           
+                    <div class="form-group">
+                        <label class="label-estacao">
+                            <img id="img-estacao" src="https://conatus-site-assets.s3.amazonaws.com/images/icone-estacao-svg.svg" alt="vetorEstação">
+                            Estação
+                        </label>
+                        <select class="form-control form-rounded" name="selectEstacoes" id="selectEstacoes">
+                            <option value="1">ETA Mogi Mirim</option>
+                            <option value="2">Estação 2</option>
+                            <option value="3">Estação 3</option>
+                            <option value="4">Estação 4</option>
+                        </select>
+                    </div>
+        
+                    <!--<div class="form-group">
+                        <label for="selectDispositivos">
+                            <img id="img-dispositivo"  src="https://conatus-site-assets.s3.amazonaws.com/images/dispo.svg" alt="">
+                            Dispositivo
+                        </label>
+                        <select class="form-control form-rounded" name="selectDispositivos" id="selectDispositivos">
+                            <option value="1" selected>Dispositivo 1</option>
+                            <option value="2">Dispositivo 2</option>
+                            <option value="3">Dispositivo 3</option>
+                            <option value="4">Dispositivo 4</option>
+                        </select>
+                    </div>-->
+                </div>
+                <button class="filter" onClick="exibirModalFilter()">
+                    <img src="https://conatus-site-assets.s3.amazonaws.com/images/Filtro.svg" alt="Filtro">
+                </button>
+                <button class="user" id="btnLogout" onClick="exibirModalIntermediario()">
+                    <img class="img-azul-logout" src="https://conatus-site-assets.s3.amazonaws.com/images/new_icone_user_blue.svg" alt="Usuário">
+                </button>
+
+                <!-- Modal Intermediário -->
+                <div id="modalIntermediario" class="modal-overlay" style="display: none;">
+                    <div class="modal-conteudo modal-intermediario">
+                        <span class="modal-fechar" onClick="fecharModalIntermediario()">&times;</span>
+                        <div class="modal-body">
+                            <div class="perfil">
+                                <img src="https://conatus-site-assets.s3.amazonaws.com/images/Botao-icone-pf-azul.svg" alt="icone de usuário">
+                                <div class="perfil-info">
+                                    <p class="perfil-text">Perfil</p>
+                                    <p class="operador">Operador</p>
+                                </div>
+                            </div>
+                            <hr>
+                            <button class="btn-sair" onClick="exibirModalConfirmacao()">
+                                <img id="saida" src="https://conatus-site-assets.s3.amazonaws.com/images/Sair.svg" alt="icone de seta de saída">
+                                <span class="span-sair-modal" >Sair</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Modal de Confirmação -->
+                <div id="modalConfirmacao" class="modal-overlay" style="display: none;">
+                    <div class="modal-conteudo modal-confirmacao">
+                        <span class="modal-fechar" onClick="fecharModalConfirmacao()">&times;</span>
+                        <div class="modal-body">
+                            <p>Deseja sair ?</p>
+                            <button id="btnConfirmarSaida">Sim</button>
+                            <button id="btnCancelarSaida">Não</button>
+                        </div>
+                    </div>
+                </div>
+            </menu>
+        </header>
+
+        <main>
+
+
+
+         
+
+
+
+
+
+
+
+            <section class="title-section">
+                <div class="container-sensor">
+                    <img src="https://conatus-site-assets.s3.us-east-1.amazonaws.com/images/testeTurbidimetro.svg" alt="icone Sensor">
+                </div>
+                <div class="clima">
+                    <div class="weather-details">
+                        <img id="weather-icon" src="" alt="Condições climáticas">
+                        <p id="temperatura">-- °C</p>
+                    </div>
+                    <div class="city-details">
+                        <h2 id="cidade">Carregando...</h2>
+                        <!--<p id="max-min">Máx: --°C / Min: --°C</p>-->
+                        <p id="pressao-umidade" class="pressao"></p>
+                        <p id="date"></p>
+                    </div>
+                </div>
+            </section>
+
+
+
+
+
+
+
+                <section class="conteiner-geral-disp">
+
+                    <div class="conteiner-dispositivo">
+                        <label class="selectDispositivos" for="">
+                            <img id="img-dispositivo"  src="https://conatus-site-assets.s3.amazonaws.com/images/Vector_blue_disp.svg" alt="logo-dispositivos">
+                            Dispositivo
+                        </label>
+                    </div>
+
+            
+
+                    <section id="btn-flex-disp">
+
+                        <div class="conteiner-botoes-selecao">
+                            <button class="btn-select-disp" id="pilula1" >
+                                <span class="p-btn-disp">Sensor Vazão</span>
+                            </button>
+                        </div>
+                    
+                        <div class="conteiner-botoes-selecao">
+                            <button class="btn-select-disp" id="pilula2" >
+                                <span class="p-btn-disp">Sensor Flúor</span>
+                            </button>
+                        </div>
+                    
+                        <div class="conteiner-botoes-selecao">
+                            <button class="btn-select-disp selected" id="pilula3" >
+                                <span class="p-btn-disp">Turbidimetro</span>
+                            </button>
+                        </div>
+                    
+                        <div class="conteiner-botoes-selecao">
+                            <button class="btn-select-disp" id="pilula4" >
+                                <span class="p-btn-disp">Sensor pH</span>
+                            </button>
+                        </div>
+                    
+                        <div class="conteiner-botoes-selecao">
+                            <button class="btn-select-disp" id="pilula5" >
+                                <span class="p-btn-disp">Sensor Cloro</span>
+                            </button>
+                        </div>
+
+                        <div class="conteiner-botoes-selecao">
+                            <button class="btn-select-disp" id="pilula6" >
+                                <span class="p-btn-disp">Gateway</span>
+                            </button>
+                        </div>
+                        
+                    </section>
+                    
+                </section>
+
+                
+                <section class="conteiner-geral-disp">
+
+                    <div class="conteiner-dispositivo">
+                        <label class="selectDispositivos" for="">
+                            Local
+                        </label>
+                    </div>
+
+            
+
+                    <section id="btn-flex-disp">
+
+                        <div class="conteiner-botoes-selecao">
+                            <button class="btn-select-disp " id="pilula7" >
+                                <span class="p-btn-disp">Água Bruta</span>
+                            </button>
+                        </div>
+
+                        <div class="conteiner-botoes-selecao">
+                            <button class="btn-select-disp " id="pilula8" >
+                                <span class="p-btn-disp">Filtro 01</span>
+                            </button>
+                        </div>
+                    
+                        <div class="conteiner-botoes-selecao">
+                            <button class="btn-select-disp" id="pilula9" >
+                                <span class="p-btn-disp">Filtro 02</span>
+                            </button>
+                        </div>
+                    
+                        <div class="conteiner-botoes-selecao">
+                            <button class="btn-select-disp" id="pilula10" >
+                                <span class="p-btn-disp">Filtro 03</span>
+                            </button>
+                        </div>
+                    
+                        <div class="conteiner-botoes-selecao">
+                            <button class="btn-select-disp" id="pilula11" >
+                                <span class="p-btn-disp">Filtro 04</span>
+                            </button>
+                        </div>
+                    
+                        <div class="conteiner-botoes-selecao">
+                            <button class="btn-select-disp" id="pilula12" >
+                                <span class="p-btn-disp">Filtro 05</span>
+                            </button>
+                        </div>
+
+                        <div class="conteiner-botoes-selecao">
+                            <button class="btn-select-disp selected" id="pilula13" >
+                                <span class="p-btn-disp">Filtro 06</span>
+                            </button>
+                        </div>
+
+                        <div class="conteiner-botoes-selecao">
+                            <button class="btn-select-disp" id="pilula14" >
+                                <span class="p-btn-disp">Filtro 07</span>
+                            </button>
+                        </div>
+                    
+                        <div class="conteiner-botoes-selecao">
+                            <button class="btn-select-disp" id="pilula15" >
+                                <span class="p-btn-disp">Filtro 08</span>
+                            </button>
+                        </div>
+                    
+                        <div class="conteiner-botoes-selecao">
+                            <button class="btn-select-disp" id="pilula16" >
+                                <span class="p-btn-disp">Filtro 09</span>
+                            </button>
+                        </div>
+                    
+                        <div class="conteiner-botoes-selecao">
+                            <button class="btn-select-disp" id="pilula17" >
+                                <span class="p-btn-disp">Filtro 10</span>
+                            </button>
+                        </div>
+                    
+                        <div class="conteiner-botoes-selecao">
+                            <button class="btn-select-disp" id="pilula18" >
+                                <span class="p-btn-disp">Filtro 11</span>
+                            </button>
+                        </div>
+
+                        <div class="conteiner-botoes-selecao">
+                            <button class="btn-select-disp" id="pilula19" >
+                                <span class="p-btn-disp">Filtro 12</span>
+                            </button>
+                        </div>
+
+                        <div class="conteiner-botoes-selecao">
+                            <button class="btn-select-disp" id="pilula20" >
+                                <span class="p-btn-disp">Decantador 01</span>
+                            </button>
+                        </div>
+
+                        <div class="conteiner-botoes-selecao">
+                            <button class="btn-select-disp" id="pilula21" >
+                                <span class="p-btn-disp">Decantador 02</span>
+                            </button>
+                        </div>
+
+                        <div class="conteiner-botoes-selecao">
+                            <button class="btn-select-disp" id="pilula22" >
+                                <span class="p-btn-disp">Decantador 03</span>
+                            </button>
+                        </div>
+
+                        <div class="conteiner-botoes-selecao">
+                            <button class="btn-select-disp" id="pilula23" >
+                                <span class="p-btn-disp">Água Tratada</span>
+                            </button>
+                        </div>
+                        
+                    </section>
+                    
+                </section>
+                     
+            <!--  <section id="btn-flex-disp">
+
+                        <div class="conteiner-botoes-selecao">
+                            <button class="btn-select-disp" id="pilula1" onClick="">
+                                <span class="p-btn-disp" >Sensor floculador</span>
+                            </button>
+                        </div>
+
+                        <div class="conteiner-botoes-selecao">
+                            <button class="btn-select-disp" id="pilula2" onClick="">
+                                <span class="p-btn-disp">Turbidimetro</span>
+                            </button>
+                        </div>
+
+                        <div class="conteiner-botoes-selecao">
+                            <button class="btn-select-disp" id="pilula3" onClick="">
+                                <span class="p-btn-disp">Sensor PH</span>
+                            </button>
+                        </div>
+
+                        <div class="conteiner-botoes-selecao">
+                            <button class="btn-select-disp" id="pilula4" onClick="">
+                                <span class="p-btn-disp">Sensor Cloro</span>
+                            </button>
+                        </div>
+
+                        <div class="conteiner-botoes-selecao">
+                            <button class="btn-select-disp" id="pilula5" onClick="">
+                                <span class="p-btn-disp">Sensor fluor</span>
+                            </button>
+                        </div>
+                    </section>-->
+                     
+
+            
+
+<!--<div class="form-group">
+                        <label for="selectDispositivos">
+                            <img id="img-dispositivo"  src="https://conatus-site-assets.s3.amazonaws.com/images/dispo.svg" alt="">
+                            Dispositivo
+                        </label>
+                        <select class="form-control form-rounded" name="selectDispositivos" id="selectDispositivos">
+                            <option value="1" selected>Dispositivo 1</option>
+                            <option value="2">Dispositivo 2</option>
+                            <option value="3">Dispositivo 3</option>
+                            <option value="4">Dispositivo 4</option>
+                        </select>
+                    </div>-->
+
+
+            <section class="data-section">
+                <div class="container-display">
+                    
+                    <div id="displays">
+                        <!-- <div class="card-display"></div> -->
+                        <div class="card-display">
+                            <div class="card-display-header">
+                                <div class="title_card">
+                                    <span>Turbidez</span>
+                                </div>
+                                
+                            </div>
+                            <div class="card-display-body">
+                                <div class="value_with_unit">
+                                    <span id="display001" class="value_card"></span>
+                                    <span class="unit_card">&nbspNTU</span>
+                                </div>
+                            </div>
+                           
+
+
+                        </div>
+                        <div class="card-display">
+                            <div class="card-display-header">
+                                <div class="title_card">
+                                    <span>Potência do Sinal</span>
+                                </div>
+                            </div>
+                            <div class="card-display-body">
+                                <div class="value_with_unit">
+                                    <span id="display002" class="value_card"></span>
+                                    <span class="unit_card"></span>
+                                    
+                                </div>
+                            </div>
+
+                            
+                        </div>
+                        <div class="card-display">
+                            <div class="card-display-header">
+                                <div class="title_card">
+                                    <span>Qualidade do Sinal</span>
+                                </div>
+                            </div>
+                            <div class="card-display-body">
+                                <div class="value_with_unit">
+                                    <span id="display003" class="value_card"></span>
+                                    <span class="unit_card"></span>
+                                    
+                                </div>
+                            </div>
+                            
+                        </div>
+                        
+                    </div>
+                </div>
+<!--
+                <div class="container-chart">
+                    <div class="container-chart-header"> 
+                        <button class="btn-hist" id="selectHistorico">
+                            <span id="btn-hist-span"> Historico </span><img id="icon-btn-historico" src="https://conatus-site-assets.s3.amazonaws.com/images/btnhistorico.svg" alt="icone Sensor">
+                        </button>   
+                    </div>-->
+
+
+
+                    <div class="modal-overlay-historico"></div>
+                    
+                    <!---
+                    <section class="modal-historico">
+                        <div class="conteiner-title-historico">
+                            <p class="titulo-modal">Historico</p>
+                            <p class="label-modal">Determine o período que deseja ver o Historico.</p>
+                        </div>
+                        <div class="conteiner-conteudo-historico">
+                            <div class="selecao-data">
+                                <div class="linha-superior">
+                                    <img class="img-modal-historico" src="https://conatus-site-assets.s3.amazonaws.com/images/Calendar.svg" alt="logo-calendario">
+                                    <span class="span-historico-title">Data</span>
+                                </div>
+                                <label class="checkbox-data-historico">
+                                    <input type="checkbox" class="checkbox">
+                                    <span class="label-checkbox">Data de hoje</span>
+                                </label>
+                                <div class="linha-selects">
+                                    <div class="select-group">
+                                        <span class="span-historico-title-btn">Início</span>
+                                        <select class="selecao-historico">
+                                            <option class="options-historico"><span>19/05/2024</span></option>
+                                            <option class="options-historico"><span>20/05/2024</span></option>
+                                        </select>
+                                    </div>
+                                    <div class="select-group">
+                                        <span class="span-historico-title-btn">Final</span>
+                                        <select class="selecao-historico">
+                                            <option class="options-historico"><span>19/05/2024</span></option>
+                                            <option class="options-historico"><span>20/05/2024</span></option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="selecao-hora">
+                                <div class="linha-superior">
+                                    <img class="img-modal-historico" src="https://conatus-site-assets.s3.amazonaws.com/images/relogio.svg" alt="logo-relogio">
+                                    <span class="span-historico-title">Hora</span>
+                                </div>
+                                <div class="linha-selects">
+                                    <div class="select-group">
+                                        <span class="span-historico-title-btn">Início</span>
+                                        <select class="selecao-historico">
+                                            <option class="options-historico"><span>19h</span></option>
+                                            <option class="options-historico"><span>20h</span></option>
+                                        </select>
+                                    </div>
+                                    <div class="select-group">
+                                        <span class="span-historico-title-btn">Final</span>
+                                        <select class="selecao-historico">
+                                            <option class="options-historico"><span>14h</span></option>
+                                            <option class="options-historico"><span>15h</span></option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <button class="btn-baixar">Baixar</button>
+                        </div>
+                    </section>-->
+
+                    <div id="charts">
+                        <div class="card-chart">
+                            <div class="card-chart-header">
+                                <div class="left_header_chart">
+                                    <div class="title_chart">
+                                        <span class="title-chart-span">Turbidez</span>
+                                    </div>
+                                </div>
+                                <div class="card-display-body">
+                                    <div class="value_with_unit-chart">
+                                        <span class="chart001 value_card"></span>
+                                        <span class="chart001 value_card"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-chart-body">
+                                <canvas id='chart001'></canvas>
+                            </div>
+                        </div>
+                    
+                        <div class="card-chart">
+                            <div class="card-chart-header">
+                                <div class="left_header_chart">
+                                    <div class="title_chart">
+                                        <span class="title-chart-span">Potência do Sinal de Comunicação</span>
+                                    </div>
+                                </div>
+                                <div class="card-display-body">
+                                    <div class="value_with_unit-chart">
+                                        <span class="chart002 value_card"></span>
+                                        <span class="unit_card"></span>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-chart-body">
+                                <canvas id='chart002'></canvas>
+                            </div>
+                        </div>
+                    
+                        <div class="card-chart">
+                            <div class="card-chart-header">
+                                <div class="left_header_chart">
+                                    <div class="title_chart">
+                                        <span class="title-chart-span">Qualidade do Sinal de Comunicação</span>
+                                    </div>
+                                </div>
+                                <div class="card-display-body">
+                                    <div class="value_with_unit-chart">
+                                        <span class="chart003 value_card"></span>
+                                        <span class="unit_card"></span>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-chart-body">
+                                <canvas id='chart003'></canvas>
+                            </div>
+                        </div>
+
+
+            </section>
+        </main>       
+    </div> 
+
+    <div class="modal" id="modal-filter">
+        <div class="modal-mask">
+            <div class="modal-wrapper">
+                <div class="modal-container">
+                    <div class="modal-header">                    
+                        <h3>Para onde vamos?</h3>
+                        <span>Escolha a estação e o dispositivo que deseja.</span>                    
+                    </div>
+
+                    <div class="modal-body">
+                        <div class="form">   
+                            <div class="form-group-filtro">
+                                <label class="selectest" for="selectEstacoes">
+                                    <img src="https://conatus-site-assets.s3.amazonaws.com/icons/vector.svg" alt="vetorEstação">
+                                    Estação
+                                </label>
+                                <select class="form-control form-rounded" name="selectEstacoes" id="selectModalEstacoes">
+                                    <option value="1">Estação 1</option>
+                                    <option value="2">Estação 2</option>
+                                    <option value="3">Estação 3</option>
+                                    <option value="4">Estação 4</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group-filtro">
+                                <label class="selectdisp" for="selectDispositivos">
+                                    <img src="https://conatus-site-assets.s3.amazonaws.com/images/dispo.svg" alt="">
+                                    Dispositivo
+                                </label>
+                                <select class="form-control form-rounded" name="selectDispositivos" id="selectModalDispositivos">
+                                    <option value="1" selected>Dispositivo 1</option>
+                                    <option value="2">Dispositivo 2</option>
+                                    <option value="3">Dispositivo 3</option>
+                                    <option value="4">Dispositivo 4</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">                                                    
+                        <button class="btn btn-outline btn-success" onClick="salvarModalFilter()">
+                            Salvar
+                        </button>
+                        <button class="btn btn-outline btn-danger" onClick="fecharModalFilter()">
+                            Cancelar
+                        </button>                       
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+   <!-- Alterado -->
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/components/core-min.js" type="text/javascript"></script> 
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/components/hmac-min.js" type="text/javascript"></script> 
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/components/sha256-min.js" type="text/javascript"></script> 
+   <!-- Alterado -->
+
+   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+   
+   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+   
+            
+   <!-- JS -->
+   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+   <!-- <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.3/dist/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script> -->
+   <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script> -->
+   <script type="text/javascript" src="https://conatus-site-assets.s3.amazonaws.com/paho-mqtt.js?AWSAccessKeyId=AKIA3GAO3RT2T4C4EGPY&Signature=X8CPqoOs8DHpyZAbTSedYq%2B%2F%2Fx8%3D&Expires=1871157230"></script>
+   <!-- <script type="text/javascript" src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>  -->
+   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> 
+   
+   <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
+   <script type="text/javascript" src="https://s3.us-east-1.amazonaws.com/site.turbidimetro-filtro06-etamogimirim.com/turbidimetroFiltro06.js"></script>
+   <script type="text/javascript" src="https://s3.amazonaws.com/site.analisadoresdecarga-etamogimirim.com/analisadordecarga.js?AWSAccessKeyId=AKIA3GAO3RT2RSVLRW7G&Signature=MUwQB9AUMbrYkwCzPu4uWmsIy%2B0%3D&Expires=1891449774"></script>
+   <!-- <script src="assets/js/java4dms.js"></script> -->     
+   
+</body>
